@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import useSWR from 'swr';
+import useSWR, { Fetcher } from 'swr';
 
 type User = {
   id: number;
@@ -10,7 +10,7 @@ type User = {
 
 export default function HomePage() {
   // const [users, setUsers] = useState<User[]>([]);
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
 
   // useEffect(() => {
   //   fetch('/api/users')
@@ -20,7 +20,12 @@ export default function HomePage() {
   //       setLoading(false);
   //     });
   // }, []);
-  const fetcher = (url: string) => fetch(url).then(res => res.json());
+  // const fetcher = (url: string) => fetch(url).then(res => res.json());
+  const fetcher: Fetcher<User[], string> = (url) => fetch(url).then(res => res.json());
+  // const fetcher = async (url: string) => {
+  //   const res = await fetch(url);
+  //   return res.json();
+  // };
   const { data: users, isLoading } = useSWR<User[]>('/api/users', fetcher);
 
   return (
